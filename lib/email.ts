@@ -7,11 +7,11 @@
  *   3. dept_routing            → sent to department after manager approves
  */
 
-import { Resend } from 'resend';
-import { supabaseAdmin } from './supabase';
+// import { Resend } from 'rese';
+// import { supabaseAdmin } from './supabase';
 import type { Brief, Department } from '../types';
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+// const resend = new Resend(process.env.RESEND_API_KEY!);
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'briefs@softworks.io';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
@@ -83,16 +83,16 @@ export async function sendSubmitterConfirmation(brief: Brief): Promise<void> {
 </body>
 </html>`;
 
-  const { data, error } = await resend.emails.send({
-    from: FROM,
-    to: brief.submitter_email,
-    subject: `Brief Received: ${brief.project_title ?? 'New Brief'} [#${brief.id.substring(0, 8).toUpperCase()}]`,
-    html,
-  });
+//   const { data, error } = await resend.emails.send({
+//     from: FROM,
+//     to: brief.submitter_email,
+//     subject: `Brief Received: ${brief.project_title ?? 'New Brief'} [#${brief.id.substring(0, 8).toUpperCase()}]`,
+//     html,
+//   });
 
-  await logEmail(brief.id, brief.submitter_email,
-    `Brief Received: ${brief.project_title}`, 'submitter_confirmation', data?.id, error);
-}
+//   await logEmail(brief.id, brief.submitter_email,
+//     `Brief Received: ${brief.project_title}`, 'submitter_confirmation', data?.id, error);
+// }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. Manager notification — requires approval action
@@ -203,15 +203,15 @@ export async function sendManagerNotification(brief: Brief): Promise<void> {
 
   const subject = `[Action Required] New Brief: ${brief.project_title ?? 'Untitled'} (#${brief.id.substring(0, 8).toUpperCase()})`;
 
-  const { data, error } = await resend.emails.send({
-    from: FROM,
-    to: MANAGER_EMAIL,
-    subject,
-    html,
-  });
+  // const { data, error } = await resend.emails.send({
+  //   from: FROM,
+  //   to: MANAGER_EMAIL,
+  //   subject,
+  //   html,
+  // });
 
-  await logEmail(brief.id, MANAGER_EMAIL, subject, 'manager_notification', data?.id, error);
-}
+//   await logEmail(brief.id, MANAGER_EMAIL, subject, 'manager_notification', data?.id, error);
+// }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 3. Department routing — sent after manager approves
@@ -286,15 +286,15 @@ export async function sendDepartmentRouting(brief: Brief): Promise<void> {
 
   const subject = `[New Assignment] ${brief.project_title ?? 'New Brief'} — ${dept.charAt(0).toUpperCase() + dept.slice(1)} Team (#${brief.id.substring(0, 8).toUpperCase()})`;
 
-  const { data, error } = await resend.emails.send({
-    from: FROM,
-    to: deptEmail,
-    subject,
-    html,
-  });
+  // const { data, error } = await resend.emails.send({
+  //   from: FROM,
+  //   to: deptEmail,
+  //   subject,
+  //   html,
+  // });
 
-  await logEmail(brief.id, deptEmail, subject, 'dept_routing', data?.id, error);
-}
+//   await logEmail(brief.id, deptEmail, subject, 'dept_routing', data?.id, error);
+// }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal: log every email send to the DB
@@ -307,16 +307,16 @@ async function logEmail(
   resendId?: string,
   error?: unknown
 ): Promise<void> {
-  await supabaseAdmin.from('email_log').insert({
-    brief_id: briefId,
-    recipient,
-    subject,
-    type,
-    resend_id: resendId,
-    status: error ? 'failed' : 'sent',
-  });
+//   await supabaseAdmin.from('email_log').insert({
+//     brief_id: briefId,
+//     recipient,
+//     subject,
+//     type,
+//     resend_id: resendId,
+//     status: error ? 'failed' : 'sent',
+//   });
 
-  if (error) {
-    console.error(`[email] Failed to send ${type} to ${recipient}:`, error);
-  }
-}
+//   if (error) {
+//     console.error(`[email] Failed to send ${type} to ${recipient}:`, error);
+//   }
+// }

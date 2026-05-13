@@ -1,9 +1,10 @@
+import Navbar from '../components/Navbar';
 import './globals.css';
-import Navbar from './components/Navbar'; // استدعاء الـ Navbar
+import type { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Softworks Brief Assistant',
-  description: 'AI-Powered Creative Briefs',
+  description: 'AI-powered project requirement standardizer',
 };
 
 export default function RootLayout({
@@ -13,9 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <Navbar /> {/* هيظهر فوق كل الصفحات */}
-        {children}
+      <body>
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );

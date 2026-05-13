@@ -19,7 +19,7 @@ export default function ConfirmationPage() {
           onClick={() => window.location.href = '/'}
           className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
         >
-          ← Back to Dashboard
+          ← Back to Home
         </button>
       </div>
     </main>
